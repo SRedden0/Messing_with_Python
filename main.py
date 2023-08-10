@@ -1,23 +1,10 @@
 import os
+from pywinauto.application
+import Application
 
-import psutil
-
-import subprocess
-def checkIfProcessRunning(processName):
-
-    for proc in psutil.process_iter():
-        try:
-
-            if processName.lower() in proc.name().lower():
-                return True
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-    return False;
-if checkIfProcessRunning('Mullvad VPN.exe'):
-    print('VPN is already running.')
-else:
-  path_to_mullvad = 'C:\\Program Files\\Mullvad VPN\\Mullvad VPN.exe'
-  #path_to_daemon ='C:\\Program Files\\Mullvad VPN\\resources'
-  subprocess.call([path_to_mullvad])
-  print('VPN has been started!')
-
+fsv = Application(backend = "win64").start("cpu-z_2.02-en.exe")
+fsv.InstallDialog.NextButton.wait('ready', timeout = 30).click_input()
+fsv.InstallDialog.IAgreeRadioButton.wait('ready', timeout = 30).click_input()
+fsv.InstallDialog.Edit.Wait('ready', timeout = 30).type_keys(os.getcwd() + "\FastStone Image Viewer", with_spaces = True)
+fsv.InstallDialog.InstallButton.wait('ready', timeout = 30).click_input()
+fsv.InstallDialog.FinishButton.wait('ready', timeout = 30).click_input()
